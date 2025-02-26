@@ -26,6 +26,11 @@ csv_file <- r"(N:\fs1-MBRO\WORK\_LukasD\phIRO\example\synthetic_data\synthetic_d
 # - Higher GTV is positively correlated with the number of chemotherapy cycles,
 # with patients with lower GTV more likely to not receive concomitant
 # chemotherapy.
+#
+# - This script is a modified version of synthetic_data_ntcp.R to create a 
+# dataset with a shifted distribution compared to the original one. The 
+# parameters of the generator functions were manually changed until there 
+# was a noticeable difference to the original dataset.
 
 
 # Generator functions ----------------------------------------------------------
@@ -38,7 +43,7 @@ dose_fun <- function(x) {
   dose_q <- c(0.0, 0.5, 1.0)
   fun <- stats::splinefun(x = dose_q, y = dose_y, method = "hyman")
   
-  # Add uncertainty to input for generating the dose: GTV ~ N(0, 0.05).
+  # Add uncertainty to input for generating the dose: GTV ~ N(0.2, 0.25).
   x <- x + stats::rnorm(length(x), mean = 0.2, sd = 0.25)
   x[x < 0.0] <- 0.0
   x[x > 1.0] <- 1.0
@@ -53,7 +58,7 @@ gtv_fun <- function(x) {
   gtv_q <- c(0.0, 0.25, 0.5, 0.75, 1.0)
   fun <- stats::splinefun(x = gtv_q, y = gtv_y, method = "hyman")
   
-  # Add uncertainty to input for generating the GTV ~ N(0, 0.10).
+  # Add uncertainty to input for generating the GTV ~ N(-0.2, 0.25).
   # Uncertainty is relatively large because of high interobserver variability in
   # segmenting GTV.
   x <- x + stats::rnorm(length(x), mean = -0.2, sd = 0.25)
@@ -70,7 +75,7 @@ n_cct_fun <- function(x) {
   n_cct_q <- c(0, 0.4, 0.5, 1.0)
   fun <- stats::splinefun(x = n_cct_q, y = n_cct_y, method = "hyman")
   
-  # Add uncertainty to input for generating the number of cycles ~ N(0, 0.05)
+  # Add uncertainty to input for generating the number of cycles ~ N(0.5, 0.2)
   x <- x + stats::rnorm(length(x), mean = 0.5, sd = 0.2)
   x[x < 0.0] <- 0.0
   x[x > 1.0] <- 1.0
