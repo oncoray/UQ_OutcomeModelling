@@ -49,7 +49,7 @@ Our dataset consists of 200 patients and comprises three features:
 - Number of cycles of chemotherapy as integer: n_chemotherapy_cycles
 
 The studied outcome variable is the presence of a radiation induced pneumonitis:
-- outcome $= {0, 1}$: 0 - no radiopneumonitis; 1 - radiopneumonitis
+- outcome $\in \{0, 1\}$: 0 - no radiopneumonitis; 1 - radiopneumonitis
 
 In general, the following correlations apply:
 - The risk of radiopneumonitis increases with the dose to 5% of the lung volume.
